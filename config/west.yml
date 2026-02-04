@@ -13,7 +13,7 @@ manifest:
       remote: zmkfirmware
       import: app/west.yml
     - name: zmk-studio
-      remote: zmk-studio
+      remote: zmkfirmware
       revision: main
   self:
     path: config
