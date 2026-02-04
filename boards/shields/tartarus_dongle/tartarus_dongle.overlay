@@ -27,3 +27,15 @@
         >;
     };
 };
+
+&zephyr_udc0 {
+    cdc_acm_uart: cdc_acm_uart {
+        compatible = "zephyr,cdc-acm-uart";
+    };
+};
+
+/ {
+    chosen {
+        zmk,studio-rpc = &cdc_acm_uart;
+    };
+};
