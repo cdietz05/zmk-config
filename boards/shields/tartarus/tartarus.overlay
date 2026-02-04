@@ -6,11 +6,10 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    // 1. Manually define the key attributes helper
+    // 1. Define the Helper Node (Must be 7 cells)
     key_physical_attrs: key_physical_attrs {
         compatible = "zmk,key-physical-attrs";
         #key-cells = <7>;
-        status = "okay"; // FORCE ENABLE
     };
 
     // 2. Define the Matrix Transform
@@ -18,7 +17,6 @@
         compatible = "zmk,matrix-transform";
         columns = <10>; 
         rows = <5>;
-        status = "okay"; // FORCE ENABLE
         map = <
         RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4)
         RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4)
@@ -34,7 +32,6 @@
         label = "KSCAN";
         rows = <5>;
         columns = <10>;
-        status = "okay"; // FORCE ENABLE
 
         matrix {
             kscan = <&kscan_matrix>;
@@ -95,8 +92,8 @@
         display-name = "Tartarus Layout";
         transform = <&default_transform>;
         kscan = <&kscan0>;
-        status = "okay"; // FORCE ENABLE
         
+        // 7-cell definition: X, Y, W, H, Rx, Ry, Rz
         keys  
             = <&key_physical_attrs 0 0 100 100 0 0 0>   , <&key_physical_attrs 100 0 100 100 0 0 0> , <&key_physical_attrs 200 0 100 100 0 0 0> , <&key_physical_attrs 300 0 100 100 0 0 0> , <&key_physical_attrs 400 0 100 100 0 0 0>
             , <&key_physical_attrs 0 100 100 100 0 0 0> , <&key_physical_attrs 100 100 100 100 0 0 0>, <&key_physical_attrs 200 100 100 100 0 0 0>, <&key_physical_attrs 300 100 100 100 0 0 0>, <&key_physical_attrs 400 100 100 100 0 0 0>
@@ -106,7 +103,7 @@
             ;
     };
     
-    // 5. Select Everything (Must be last)
+    // 5. Select Everything
     chosen {
         zmk,kscan = &kscan0;
         zmk,matrix_transform = &default_transform;
