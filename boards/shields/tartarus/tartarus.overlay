@@ -1,45 +1,63 @@
-// This file was generated from a template. Edit it to match your keyboard.
-// See https://zmk.dev/docs/development/hardware-integration/new-shield for more
-// instructions.
+/*
+ * Copyright (c) 2026 Chris Dietz
+ * GPL-2.0-or-later
+ */
+
+#include <dt-bindings/zmk/matrix_transform.h>
+#include <layouts/common/device.dtsi>  // REQUIRED for physical layout macros
+
+#define RC(r,c) ((r << 5) | c)
 
 / {
     chosen {
         zmk,kscan = &kscan0;
         zmk,matrix_transform = &default_transform;
+        zmk,physical-layout = &physical_layout0;  // FIX: Select the physical layout
+        zmk,studio-rpc = &cdc_acm_uart;
     };
 
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <10>; 
         rows = <5>;
-        
-        // Logical map matching your JSON layout
         map = <
         RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4)
         RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4)
         RC(2,0) RC(2,1) RC(2,2) RC(2,3) RC(2,4)
-        RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5) RC(3,8) // Row 3 + Thumb 1 + Thumbstick Up
-        RC(4,5) RC(4,7) RC(4,8) RC(4,9) // Thumbstick + Left/Down/Right
+        RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5) RC(3,8) 
+        RC(4,5) RC(4,7) RC(4,8) RC(4,9) 
         >;
     };
 
-    // Composite KSCAN: Combines the Matrix and the Direct Pins (Thumbs)
+    // FIX: Define Physical Layout (Required for Studio)
+    physical_layout0: physical_layout_0 {
+        compatible = "zmk,physical-layout";
+        display-name = "Tartarus Layout";
+        transform = <&default_transform>;
+        kscan = <&kscan0>;
+        keys  // 26 keys total (positions are generic 1U grid for now)
+            = <&key_physical_attrs 0 0 100 100>   , <&key_physical_attrs 100 0 100 100> , <&key_physical_attrs 200 0 100 100> , <&key_physical_attrs 300 0 100 100> , <&key_physical_attrs 400 0 100 100>
+            , <&key_physical_attrs 0 100 100 100> , <&key_physical_attrs 100 100 100 100>, <&key_physical_attrs 200 100 100 100>, <&key_physical_attrs 300 100 100 100>, <&key_physical_attrs 400 100 100 100>
+            , <&key_physical_attrs 0 200 100 100> , <&key_physical_attrs 100 200 100 100>, <&key_physical_attrs 200 200 100 100>, <&key_physical_attrs 300 200 100 100>, <&key_physical_attrs 400 200 100 100>
+            , <&key_physical_attrs 0 300 100 100> , <&key_physical_attrs 100 300 100 100>, <&key_physical_attrs 200 300 100 100>, <&key_physical_attrs 300 300 100 100>, <&key_physical_attrs 400 300 100 100>, <&key_physical_attrs 500 300 100 100>, <&key_physical_attrs 600 300 100 100>
+            , <&key_physical_attrs 400 400 100 100>, <&key_physical_attrs 500 400 100 100>, <&key_physical_attrs 600 400 100 100>, <&key_physical_attrs 700 400 100 100>
+            ;
+    };
+
     kscan0: kscan {
         compatible = "zmk,kscan-composite";
         label = "KSCAN";
         rows = <5>;
         columns = <10>;
 
-        // Main Matrix (4 Rows, 5 Cols)
         matrix {
             kscan = <&kscan_matrix>;
         };
 
-        // Direct Pins (Thumbs F7, F6 mapped to specific matrix points)
         direct {
             kscan = <&kscan_direct>;
-            row-offset = <3>; // Starts inserting at Row 3 (logical)
-            col-offset = <5>; // Starts inserting at Col 5
+            row-offset = <3>;
+            col-offset = <5>;
         };
     };
 
@@ -47,7 +65,6 @@
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "col2row";
         
-        // QMK: Rows B6, B2, B3, B1 -> Pro Micro 10, 16, 14, 15
         row-gpios
             = <&pro_micro 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             , <&pro_micro 16 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
@@ -55,7 +72,6 @@
             , <&pro_micro 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
             ;
             
-        // QMK: Cols B5, B4, E6, D7, C6 -> Pro Micro 9, 8, 7, 6, 5
         col-gpios
             = <&pro_micro 9 GPIO_ACTIVE_HIGH>
             , <&pro_micro 8 GPIO_ACTIVE_HIGH>
@@ -68,12 +84,11 @@
     kscan_direct: kscan_direct {
         compatible = "zmk,kscan-gpio-direct";
         input-gpios
-            = <&pro_micro 18 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // Thumb 1 (F7/A0)
-            , <&pro_micro 19 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // Thumbstick Press? (F6/A1)
+            = <&pro_micro 18 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&pro_micro 19 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
             ;
     };
 
-    // Rotary Encoder (D4, D0 -> PM 4, PM 3)
     left_encoder: encoder_left {
         compatible = "alps,ec11";
         a-gpios = <&pro_micro 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
@@ -89,7 +104,6 @@
     };
 };
 
-// Joystick Analog Config (F4/A3 and F5/A2)
 &adc {
     status = "okay";
 };
@@ -97,11 +111,5 @@
 &zephyr_udc0 {
     cdc_acm_uart: cdc_acm_uart {
         compatible = "zephyr,cdc-acm-uart";
-    };
-};
-
-/ {
-    chosen {
-        zmk,studio-rpc = &cdc_acm_uart;
     };
 };
