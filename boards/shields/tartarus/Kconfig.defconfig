@@ -1,0 +1,6 @@
+if SHIELD_TARTARUS
+
+config ZMK_KEYBOARD_NAME
+    default "Tartarus Mod"
+
+endif # SHIELD_TARTARUS
