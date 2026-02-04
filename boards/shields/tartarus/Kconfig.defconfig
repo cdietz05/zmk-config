@@ -3,4 +3,7 @@ if SHIELD_TARTARUS
 config ZMK_KEYBOARD_NAME
     default "Tartarus Mod"
 
+config ZMK_SPLIT
+    default y
+
 endif # SHIELD_TARTARUS
