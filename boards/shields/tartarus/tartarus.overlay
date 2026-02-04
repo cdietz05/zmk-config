@@ -6,13 +6,7 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 
 / {
-    // 1. Define the Helper Node (Must be 7 cells)
-    key_physical_attrs: key_physical_attrs {
-        compatible = "zmk,key-physical-attrs";
-        #key-cells = <7>;
-    };
-
-    // 2. Define the Matrix Transform
+    // 1. Matrix Transform
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <10>; 
@@ -26,7 +20,7 @@
         >;
     };
 
-    // 3. Define the KSCAN
+    // 2. KSCAN
     kscan0: kscan {
         compatible = "zmk,kscan-composite";
         label = "KSCAN";
@@ -72,6 +66,7 @@
             ;
     };
 
+    // 3. Sensors
     left_encoder: encoder_left {
         compatible = "alps,ec11";
         a-gpios = <&pro_micro 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
@@ -86,38 +81,12 @@
         triggers-per-rotation = <20>;
     };
 
-    // 4. Define the Physical Layout
-    physical_layout0: physical_layout_0 {
-        compatible = "zmk,physical-layout";
-        display-name = "Tartarus Layout";
-        transform = <&default_transform>;
-        kscan = <&kscan0>;
-        
-        // 7-cell definition: X, Y, W, H, Rx, Ry, Rz
-        keys  
-            = <&key_physical_attrs 0 0 100 100 0 0 0>   , <&key_physical_attrs 100 0 100 100 0 0 0> , <&key_physical_attrs 200 0 100 100 0 0 0> , <&key_physical_attrs 300 0 100 100 0 0 0> , <&key_physical_attrs 400 0 100 100 0 0 0>
-            , <&key_physical_attrs 0 100 100 100 0 0 0> , <&key_physical_attrs 100 100 100 100 0 0 0>, <&key_physical_attrs 200 100 100 100 0 0 0>, <&key_physical_attrs 300 100 100 100 0 0 0>, <&key_physical_attrs 400 100 100 100 0 0 0>
-            , <&key_physical_attrs 0 200 100 100 0 0 0> , <&key_physical_attrs 100 200 100 100 0 0 0>, <&key_physical_attrs 200 200 100 100 0 0 0>, <&key_physical_attrs 300 200 100 100 0 0 0>, <&key_physical_attrs 400 200 100 100 0 0 0>
-            , <&key_physical_attrs 0 300 100 100 0 0 0> , <&key_physical_attrs 100 300 100 100 0 0 0>, <&key_physical_attrs 200 300 100 100 0 0 0>, <&key_physical_attrs 300 300 100 100 0 0 0>, <&key_physical_attrs 400 300 100 100 0 0 0>, <&key_physical_attrs 500 300 100 100 0 0 0>, <&key_physical_attrs 600 300 100 100 0 0 0>
-            , <&key_physical_attrs 400 400 100 100 0 0 0>, <&key_physical_attrs 500 400 100 100 0 0 0>, <&key_physical_attrs 600 400 100 100 0 0 0>, <&key_physical_attrs 700 400 100 100 0 0 0>
-            ;
-    };
-    
-    // 5. Select Everything
     chosen {
         zmk,kscan = &kscan0;
         zmk,matrix_transform = &default_transform;
-        zmk,physical-layout = &physical_layout0;
-        zmk,studio-rpc = &cdc_acm_uart;
     };
 };
 
 &adc {
     status = "okay";
-};
-
-&zephyr_udc0 {
-    cdc_acm_uart: cdc_acm_uart {
-        compatible = "zephyr,cdc-acm-uart";
-    };
 };
