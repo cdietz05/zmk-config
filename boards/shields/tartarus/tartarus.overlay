@@ -4,15 +4,22 @@
  */
 
 #include <dt-bindings/zmk/matrix_transform.h>
-#include <layouts/common/device.dtsi>  // REQUIRED for physical layout macros
 
+// Helper to calculate matrix positions
 #define RC(r,c) ((r << 5) | c)
 
 / {
+    // FIX: Manually define the "key attributes" node here.
+    // This replaces the missing "layouts/common/device.dtsi" file.
+    key_physical_attrs: key_physical_attrs {
+        compatible = "zmk,key-physical-attrs";
+        #binding-cells = <4>;
+    };
+
     chosen {
         zmk,kscan = &kscan0;
         zmk,matrix_transform = &default_transform;
-        zmk,physical-layout = &physical_layout0;  // FIX: Select the physical layout
+        zmk,physical-layout = &physical_layout0;
         zmk,studio-rpc = &cdc_acm_uart;
     };
 
@@ -29,13 +36,14 @@
         >;
     };
 
-    // FIX: Define Physical Layout (Required for Studio)
     physical_layout0: physical_layout_0 {
         compatible = "zmk,physical-layout";
         display-name = "Tartarus Layout";
         transform = <&default_transform>;
         kscan = <&kscan0>;
-        keys  // 26 keys total (positions are generic 1U grid for now)
+        
+        // Now this reference works because we defined the node above!
+        keys  
             = <&key_physical_attrs 0 0 100 100>   , <&key_physical_attrs 100 0 100 100> , <&key_physical_attrs 200 0 100 100> , <&key_physical_attrs 300 0 100 100> , <&key_physical_attrs 400 0 100 100>
             , <&key_physical_attrs 0 100 100 100> , <&key_physical_attrs 100 100 100 100>, <&key_physical_attrs 200 100 100 100>, <&key_physical_attrs 300 100 100 100>, <&key_physical_attrs 400 100 100 100>
             , <&key_physical_attrs 0 200 100 100> , <&key_physical_attrs 100 200 100 100>, <&key_physical_attrs 200 200 100 100>, <&key_physical_attrs 300 200 100 100>, <&key_physical_attrs 400 200 100 100>
