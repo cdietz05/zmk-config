@@ -4,30 +4,29 @@
  */
 
 #include <dt-bindings/zmk/matrix_transform.h>
+#include "tartarus_dongle-layouts.dtsi"
 
 / {
-    // 1. Helper Node (Manual definition to satisfy 7-cell requirement)
-    key_physical_attrs: key_physical_attrs {
-        compatible = "zmk,key-physical-attrs";
-        #key-cells = <7>;
-        status = "okay";
+    chosen {
+        zmk,kscan = &mock_kscan;
+        zmk,matrix_transform = &matrix_transform0;
+        zmk,physical-layout = &physical_layout0; 
+        zephyr,display = &oled;
+        zmk,studio-rpc = &cdc_acm_uart;
     };
 
-    // 2. Mock KSCAN (FIXED: Size increased to match the matrix)
     mock_kscan: mock_kscan {
         compatible = "zmk,kscan-mock";
-        rows = <5>;    // FIX: Must match your max rows
-        columns = <10>; // FIX: Must match your max cols
+        rows = <5>;    
+        columns = <10>; 
         events = <0>;
-        status = "okay";
     };
 
-    // 3. Matrix Transform
-    default_transform: keymap_transform_0 {
+    // RENAME: Now matches the dtsi reference
+    matrix_transform0: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <10>; 
         rows = <5>;
-        status = "okay";
         map = <
         RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4)
         RC(1,0) RC(1,1) RC(1,2) RC(1,3) RC(1,4)
@@ -35,31 +34,6 @@
         RC(3,0) RC(3,1) RC(3,2) RC(3,3) RC(3,4) RC(3,5) RC(3,8)
         RC(4,5) RC(4,7) RC(4,8) RC(4,9)
         >;
-    };
-
-    // 4. Physical Layout
-    physical_layout0: physical_layout_0 {
-        compatible = "zmk,physical-layout";
-        display-name = "Tartarus Layout";
-        transform = <&default_transform>;
-        kscan = <&mock_kscan>;
-        status = "okay";
-        
-        keys  
-            = <&key_physical_attrs 0 0 100 100 0 0 0>   , <&key_physical_attrs 100 0 100 100 0 0 0> , <&key_physical_attrs 200 0 100 100 0 0 0> , <&key_physical_attrs 300 0 100 100 0 0 0> , <&key_physical_attrs 400 0 100 100 0 0 0>
-            , <&key_physical_attrs 0 100 100 100 0 0 0> , <&key_physical_attrs 100 100 100 100 0 0 0>, <&key_physical_attrs 200 100 100 100 0 0 0>, <&key_physical_attrs 300 100 100 100 0 0 0>, <&key_physical_attrs 400 100 100 100 0 0 0>
-            , <&key_physical_attrs 0 200 100 100 0 0 0> , <&key_physical_attrs 100 200 100 100 0 0 0>, <&key_physical_attrs 200 200 100 100 0 0 0>, <&key_physical_attrs 300 200 100 100 0 0 0>, <&key_physical_attrs 400 200 100 100 0 0 0>
-            , <&key_physical_attrs 0 300 100 100 0 0 0> , <&key_physical_attrs 100 300 100 100 0 0 0>, <&key_physical_attrs 200 300 100 100 0 0 0>, <&key_physical_attrs 300 300 100 100 0 0 0>, <&key_physical_attrs 400 300 100 100 0 0 0>, <&key_physical_attrs 500 300 100 100 0 0 0>, <&key_physical_attrs 600 300 100 100 0 0 0>
-            , <&key_physical_attrs 400 400 100 100 0 0 0>, <&key_physical_attrs 500 400 100 100 0 0 0>, <&key_physical_attrs 600 400 100 100 0 0 0>, <&key_physical_attrs 700 400 100 100 0 0 0>
-            ;
-    };
-
-    chosen {
-        zmk,kscan = &mock_kscan;
-        zmk,matrix_transform = &default_transform;
-        zmk,physical-layout = &physical_layout0; 
-        zephyr,display = &oled;
-        zmk,studio-rpc = &cdc_acm_uart;
     };
 };
 

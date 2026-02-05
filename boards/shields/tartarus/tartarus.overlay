@@ -4,10 +4,17 @@
  */
 
 #include <dt-bindings/zmk/matrix_transform.h>
+#include "tartarus-layouts.dtsi"
 
 / {
-    // 1. Matrix Transform
-    default_transform: keymap_transform_0 {
+    chosen {
+        zmk,kscan = &kscan0;
+        zmk,matrix_transform = &matrix_transform0;
+        zmk,physical-layout = &physical_layout0;
+    };
+
+    // RENAME: Used to be "default_transform", now "matrix_transform0" to match dtsi
+    matrix_transform0: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <10>; 
         rows = <5>;
@@ -20,7 +27,6 @@
         >;
     };
 
-    // 2. KSCAN
     kscan0: kscan {
         compatible = "zmk,kscan-composite";
         label = "KSCAN";
@@ -66,7 +72,6 @@
             ;
     };
 
-    // 3. Sensors
     left_encoder: encoder_left {
         compatible = "alps,ec11";
         a-gpios = <&pro_micro 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
@@ -79,11 +84,6 @@
         compatible = "zmk,keymap-sensors";
         sensors = <&left_encoder>;
         triggers-per-rotation = <20>;
-    };
-
-    chosen {
-        zmk,kscan = &kscan0;
-        zmk,matrix_transform = &default_transform;
     };
 };
 
