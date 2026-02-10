@@ -87,5 +87,3 @@
         triggers-per-rotation = <20>;
     };
 };
-
-&adc { status = "okay"; };
