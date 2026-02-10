@@ -4,26 +4,25 @@
  */
 
 #include <dt-bindings/zmk/matrix_transform.h>
-#include "tartarus_dongle-layouts.dtsi"
 
 / {
     chosen {
-        zmk,kscan = &mock_kscan;
-        zmk,matrix_transform = &matrix_transform0;
+        zmk,kscan = &kscan0;
+        zmk,matrix_transform = &default_transform;
         zmk,physical-layout = &physical_layout0; 
         zephyr,display = &oled;
         zmk,studio-rpc = &cdc_acm_uart;
     };
 
-    mock_kscan: mock_kscan {
+    // Label MUST be kscan0 so the included layout file finds it
+    kscan0: mock_kscan {
         compatible = "zmk,kscan-mock";
         rows = <5>;    
         columns = <10>; 
         events = <0>;
     };
 
-    // RENAME: Now matches the dtsi reference
-    matrix_transform0: keymap_transform_0 {
+    default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <10>; 
         rows = <5>;
@@ -36,6 +35,9 @@
         >;
     };
 };
+
+// Include layout from the OTHER folder
+#include "../tartarus/tartarus-layout.dtsi"
 
 &xiao_i2c {
     status = "okay";
