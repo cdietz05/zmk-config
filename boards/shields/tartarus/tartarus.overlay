@@ -4,6 +4,7 @@
  */
 
 #include <dt-bindings/zmk/matrix_transform.h>
+#include "tartarus-layouts.dtsi"
 
 / {
     chosen {
@@ -87,5 +88,4 @@
     };
 };
 
-#include "tartarus-layouts.dtsi"
 &adc { status = "okay"; };
