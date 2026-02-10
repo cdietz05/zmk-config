@@ -4,7 +4,7 @@
     physical_layout0: physical_layout_0 {
         compatible = "zmk,physical-layout";
         display-name = "Tartarus Layout";
-        kscan = <&kscan0>;
+        kscan = <&mock_kscan>;
         transform = <&default_transform>;
 
         keys  //                     w   h    x    y     rot    rx    ry
