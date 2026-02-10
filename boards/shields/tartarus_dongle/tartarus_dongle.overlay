@@ -7,7 +7,7 @@
 
 / {
     chosen {
-        zmk,kscan = &kscan0;
+        zmk,kscan = &mock_kscan;
         zmk,matrix_transform = &default_transform;
         zmk,physical-layout = &physical_layout0; 
         zephyr,display = &oled;
@@ -15,7 +15,7 @@
     };
 
     // Label MUST be kscan0 so the included layout file finds it
-    kscan0: mock_kscan {
+    mock_kscan: mock_kscan_0 {
         compatible = "zmk,kscan-mock";
         rows = <0>;    
         columns = <0>; 
@@ -36,7 +36,7 @@
     };
 };
 
-#import "../tartarus/tartarus-layouts.dtsi"
+#include "../tartarus/tartarus-layouts.dtsi"
 
 &physical_layout0 {
     transform = <&default_transform>;
