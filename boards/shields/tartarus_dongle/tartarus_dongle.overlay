@@ -37,7 +37,7 @@
 };
 
 // Include layout from the OTHER folder
-#include "../tartarus/tartarus-layout.dtsi"
+#include "../tartarus/tartarus-layouts.dtsi"
 
 &xiao_i2c {
     status = "okay";
