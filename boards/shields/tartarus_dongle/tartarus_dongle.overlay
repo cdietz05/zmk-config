@@ -17,8 +17,8 @@
     // Label MUST be kscan0 so the included layout file finds it
     kscan0: mock_kscan {
         compatible = "zmk,kscan-mock";
-        rows = <5>;    
-        columns = <10>; 
+        rows = <0>;    
+        columns = <0>; 
         events = <0>;
     };
 
