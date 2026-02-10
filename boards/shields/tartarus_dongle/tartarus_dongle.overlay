@@ -7,7 +7,7 @@
 
 / {
     chosen {
-        zmk,kscan = &mock_kscan;
+        zmk,kscan = &kscan0;
         zmk,matrix_transform = &default_transform;
         zmk,physical-layout = &physical_layout0; 
         zephyr,display = &oled;
@@ -15,7 +15,7 @@
     };
 
     // Label MUST be kscan0 so the included layout file finds it
-    mock_kscan: mock_kscan_0 {
+    kscan0: mock_kscan {
         compatible = "zmk,kscan-mock";
         rows = <0>;    
         columns = <0>; 
@@ -44,7 +44,7 @@
 
 / {
     chosen {
-        zmk,kscan = &mock_kscan;
+        zmk,kscan = &kscan0;
         zmk,physical-layout = &physical_layout0;
     };
 };
