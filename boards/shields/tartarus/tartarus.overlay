@@ -87,5 +87,5 @@
     };
 };
 
-#include "tartarus-layout.dtsi"
+#include "tartarus-layouts.dtsi"
 &adc { status = "okay"; };
